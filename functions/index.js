@@ -31,24 +31,18 @@ const waifuSchemaShort = new Schema({
 const Waifu = mongoose.model("Waifu", waifuSchemaShort);
 
 app.get("/", (req, res) => {
-	const date = new Date();
-	const hours = (date.getHours() % 12) + 1; // London is UTC + 1hr;
-	res.send(`
-      <!doctype html>
-      <head>
-        <title>Time</title>
-        <link rel="stylesheet" href="/style.css">
-        <script src="/script.js"></script>
-      </head>
-      <body>
-        <p>In London, the clock strikes:
-          <span id="bongs">${"BONG ".repeat(hours)}</span></p>
-        <button onClick="refresh(this)">Refresh</button>
-      </body>
-    </html>`);
+	res.status(200).send(`<!doctype html>
+	<head>
+	<title>Waifuchan web service</title>
+	</head>
+	<body>
+	<h2>"The <em>/waifus</em> route provides full access.</h2>
+	</body>
+	</html>`);
 });
 
 app.get("/waifus", (req, res) => {
+	res.set("Cache-Control", "public, max-age=300, s-maxage=600");
 	Waifu.find({}, (err, foundWaifus) => {
 		if (err) {
 			res.send(err);
