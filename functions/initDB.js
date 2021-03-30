@@ -1,10 +1,10 @@
-require("dotenv").config();
 const { connect, connection } = require("mongoose");
+const functions = require("firebase-functions");
 
 module.exports = () => {
-	const dbName = process.env.DB_NAME;
-	const user = process.env.DB_USER;
-	const pass = process.env.DB_PASS;
+	const dbName = functions.config().mongo.dbname;
+	const user = functions.config().mongo.dbuser;
+	const pass = functions.config().mongo.dbpass;
 	const uri = `mongodb+srv://${user}:${pass}@cluster0.mdczd.mongodb.net/${dbName}?retryWrites=true&w=majority`;
 
 	connect(uri, {
