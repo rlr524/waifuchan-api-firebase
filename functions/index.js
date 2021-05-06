@@ -28,7 +28,23 @@ const waifuSchemaShort = new Schema({
 	deleted: Boolean,
 });
 
+const userSchema = new Schema({
+	userId: Number,
+	firstName: String,
+	lastName: String,
+	userName: String,
+	email: String,
+	userProfileImageURL: String,
+	userWaifus: Array,
+	userJoined: Date,
+	password: String,
+	deleted: Boolean,
+	locked: Boolean,
+});
+
 const Waifu = mongoose.model("Waifu", waifuSchemaShort);
+
+const User = mongoose.model("User", userSchema);
 
 app.get("/", (req, res) => {
 	res.status(200).send(`<!doctype html>
@@ -48,6 +64,17 @@ app.get("/waifus", (req, res) => {
 			res.send(err);
 		} else {
 			res.send(foundWaifus);
+		}
+	});
+});
+
+app.get("/users/:userId", (req, res) => {
+	let userId = req.params.userId;
+	User.find({ userId: userId }, (err, foundUser) => {
+		if (err) {
+			res.send(err);
+		} else {
+			res.send(foundUser);
 		}
 	});
 });
