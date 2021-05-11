@@ -57,7 +57,7 @@ app.get("/", (req, res) => {
 	</html>`);
 });
 
-app.get("/waifus", (req, res) => {
+app.get("/api/v1/waifus", (req, res) => {
 	res.set("Cache-Control", "public, max-age=300, s-maxage=600");
 	Waifu.find({}, (err, foundWaifus) => {
 		if (err) {
@@ -68,7 +68,7 @@ app.get("/waifus", (req, res) => {
 	});
 });
 
-app.get("/users/:userId", (req, res) => {
+app.get("/api/v1/users/:userId", (req, res) => {
 	let userId = req.params.userId;
 	User.find({ userId: userId }, (err, foundUser) => {
 		if (err) {
